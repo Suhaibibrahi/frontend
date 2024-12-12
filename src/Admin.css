@@ -1,0 +1,59 @@
+.admin-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  .feedback-message {
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    width: 80%;
+    cursor: pointer;
+  }
+  
+  .feedback-message.success {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .feedback-message.error {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .users-table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+  }
+  
+  .users-table th,
+  .users-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .users-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .approve-button {
+    padding: 8px 12px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .approve-button:hover {
+    background-color: #45a049;
+  }
+  

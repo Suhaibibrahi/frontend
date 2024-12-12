@@ -1,0 +1,143 @@
+.register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-image: url('./assets/icons/IQAF.jpg'); /* Path to your image */
+    background-size: cover; /* Ensure the image covers the entire container */
+    background-position: center; /* Center the image */
+    padding: 20px; /* Add padding for better spacing */
+    overflow: auto; /* Handle overflow for smaller screens */
+    backdrop-filter: blur(5px); /* Add a subtle blur effect for a sleek look */
+    background-color: #222; /* Fallback color if image doesn't load */
+}
+
+.register-form {
+    width: 300px; /* Wider for better alignment */
+    padding: 40px; /* Increased padding for a cleaner layout */
+    border: none; /* Removed border for simplicity */
+    border-radius: 12px; /* More rounded corners for a modern look */
+    background: rgba(0, 0, 0, 0.7); /* Dark background with higher opacity */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Deeper shadow for strong depth */
+    text-align: left; /* Align form content to the left for readability */
+    color: white; /* Change text color for better contrast */
+}
+
+.register-form h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #fff; /* Bright text for better readability */
+}
+
+.input-group {
+    margin-bottom: 20px; /* Increase spacing between fields */
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px; /* Slightly smaller spacing for compact design */
+    font-weight: bold;
+    color: #ddd; /* Softer text color */
+}
+
+.input-group input {
+    width: 100%; /* Full width for cleaner alignment */
+    padding: 12px; /* Increased padding for a better typing experience */
+    border: none; /* Removed border for simplicity */
+    border-radius: 5px; /* Rounded corners for a modern touch */
+    background: rgba(255, 255, 255, 0.9); /* Light background for contrast */
+    font-size: 16px; /* Slightly larger font size */
+    color: #333; /* Dark text for better readability */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for input fields */
+}
+
+.input-group input:focus {
+    outline: 2px solid #3498db; /* Blue focus outline */
+    background: rgba(255, 255, 255, 1); /* Brighter background */
+}
+
+button {
+    width: 100%; /* Full width button */
+    padding: 15px; /* Larger padding for a solid feel */
+    background: linear-gradient(135deg, #56ab2f, #a8e063); /* Softer gradient background */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 18px; /* Larger font size for emphasis */
+    font-weight: bold;
+    transition: all 0.3s ease; /* Smooth hover transition */
+}
+
+button:hover {
+    background: linear-gradient(135deg, #4caf50, #81c784); /* Slightly darker on hover */
+    transform: scale(1.08); /* Slightly larger on hover for interaction */
+}
+
+button:disabled {
+    background: #888; /* Neutral color for disabled state */
+    cursor: not-allowed;
+    opacity: 0.8; /* Fade effect for disabled button */
+}
+
+.feedback-message {
+    font-size: 14px; /* Slightly smaller font for compact spacing */
+    min-height: 20px; /* Fixed height to prevent layout shifts */
+    color: #e57373; /* Softer red for error messages */
+    text-align: center;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: #81c784; /* Softer green for success */
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.contact-admin {
+    margin-top: 30px; /* Spaced further from form */
+    padding: 20px; /* More padding for breathing room */
+    background: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+    border-radius: 10px; /* Rounded edges for a modern touch */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    text-align: center;
+}
+
+.contact-admin h3 {
+    font-size: 20px; /* Larger heading for prominence */
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.contact-admin p {
+    font-size: 14px;
+    color: #555;
+}
+
+.contact-admin a {
+    color: #3498db; /* Softer blue for links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact-admin a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .register-form {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .input-group input,
+    button {
+        font-size: 14px; /* Adjust for smaller screens */
+        padding: 10px;
+    }
+}

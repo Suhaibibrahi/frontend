@@ -1,0 +1,70 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+/test-results/
+
+# Production
+/build
+/dist
+/out
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs and Debugging
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+logs/
+*.tmp
+*.swp
+
+# System Files
+.DS_Store
+Thumbs.db
+*.lock
+*.pid
+*.seed
+*.pid.lock
+
+# IDE and Editor Configurations
+.vscode/
+.idea/
+*.iml
+
+# Temporary Files
+*.temp
+*.backup
+*.bak
+
+# Specific Exclusions for Frameworks and Tools
+/.next/          # For Next.js
+/.nuxt/          # For Nuxt.js
+/.expo/          # For Expo React Native
+/.parcel-cache/  # For Parcel.js
+
+# Miscellaneous
+*.log            # Generic log files
+*.cache          # Cache files
+*.gz             # Compressed files
+.sass-cache/     # Sass cache
+
+# Other Framework-Specific Files
+/.eslintcache    # ESLint cache
+/coverage/       # Test coverage output
+/.cache/         # Gatsby cache
+/public/static/  # Static files (if applicable)
+
+# Sensitive Files
+config/*.local.json  # Local configuration files
+private_keys/        # Private key files
+
+# Generated API Docs
+/docs/api/
