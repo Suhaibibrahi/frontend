@@ -1,3 +1,4 @@
+// src/components/Register/Register.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Register.css';
@@ -12,6 +13,7 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     if (!email || !password) {
       setFeedback('Please fill in both fields.');
       setError(true);
@@ -19,7 +21,8 @@ function Register() {
     }
 
     setIsLoading(true);
-    setFeedback(''); // Clear feedback before sending the request
+    setFeedback('');
+
     try {
       const response = await axios.post('http://localhost:5000/register', {
         email,
@@ -27,7 +30,7 @@ function Register() {
       });
       setFeedback(response.data.message);
       setError(false);
-      setShowContactMessage(true); // Show the contact admin message after successful registration
+      setShowContactMessage(true);
     } catch (err) {
       setFeedback(err.response ? err.response.data.message : 'An error occurred. Please try again.');
       setError(true);
@@ -73,8 +76,8 @@ function Register() {
         <div className="contact-message">
           <h3>Contact Admin</h3>
           <p>
-            Your account is pending admin approval. If you need immediate assistance, please contact the admin at
-            <a href="tel:+9647717512709"> +9647717512709</a>.
+            Your account is pending admin approval. If you need immediate assistance,
+            please contact the admin at <a href="tel:+9647717512709">+9647717512709</a>.
           </p>
         </div>
       )}

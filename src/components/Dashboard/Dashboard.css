@@ -1,0 +1,41 @@
+/* Dashboard.css */
+
+/* 1) Global body styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+
+  /* Use the absolute path from /public/assets/ */
+  background: url("/assets/dashboard.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+/* 2) Dashboard container overlay */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  padding: 20px;
+
+  /* Optional transparent overlay for readability */
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* 3) Heading styles */
+.dashboard-heading {
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  margin-bottom: 10px;
+}
+
+/* 4) Subtitle styles */
+.dashboard-subtitle {
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  line-height: 1.6;
+}

@@ -5,8 +5,12 @@
     justify-content: center;
     height: 100vh;
     font-family: Arial, sans-serif;
-    background-image: url('./assets/icons/IQAF.jpg'); /* Path to your image */
-    background-size: cover; /* Ensure the image covers the entire container */
+    background:
+    rgba(0, 0, 0, 0.5)
+    url("/assets/IQAF.jpg")
+    no-repeat
+    center
+    center; /* Ensure the image covers the entire container */
     background-position: center; /* Center the image */
     padding: 20px; /* Add padding for better spacing */
     overflow: auto; /* Handle overflow for smaller screens */

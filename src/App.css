@@ -1,4 +1,11 @@
-/* General App Styles */
+/* App.css */
+
+/* 
+  We assume you want c130j.jpg as the main background 
+  behind a semi-transparent overlay, so we reference 
+  /assets/c130j.jpg from the public folder.
+*/
+
 .App {
   display: flex;
   flex-direction: column;
@@ -6,15 +13,18 @@
   justify-content: flex-start;
   height: 100vh;
   font-family: 'Arial', sans-serif;
-  background-image: url('./c130j.jpg'); /* Replace with your image path */
-  background-size: cover;
-  background-position: center;
-  color: white;
   position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
-  /* Overlay effect */
-  background: rgba(0, 0, 0, 0.5) url('./c130j.jpg') no-repeat center center;
+  color: white;
+
+  /* Semi-transparent black overlay + background from /public/assets/c130j.jpg */
+  background: 
+    rgba(0, 0, 0, 0.5)
+    url("/assets/c130j.jpg")
+    no-repeat
+    center
+    center;
   background-size: cover;
 }
 
@@ -40,16 +50,16 @@
 .login-container {
   background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
   padding: 30px;
-  border-radius: 20px; /* Rounded corners */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Soft shadow */
-  width: 280px; /* Container width */
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  width: 280px;
   margin-top: 30px;
-  backdrop-filter: blur(15px); /* Glassy effect */
+  backdrop-filter: blur(15px);
   transition: box-shadow 0.3s ease;
 }
 
 .login-container:hover {
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); /* Hover shadow effect */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
 /* Login Form */
@@ -84,15 +94,15 @@
   font-size: 1.1em;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.8); /* Light background */
-  color: #333; /* Text color */
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
   transition: all 0.3s ease;
 }
 
 .input-field:focus {
-  border-color: #ffcc00; /* Focused border color */
+  border-color: #ffcc00;
   outline: none;
-  box-shadow: 0 0 8px rgba(255, 204, 0, 0.6); /* Glow effect */
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
 }
 
 /* Button Styles */
@@ -101,7 +111,7 @@
   padding: 12px;
   font-size: 1.2em;
   color: white;
-  background: linear-gradient(135deg, #4CAF50, #45a049); /* Gradient button */
+  background: linear-gradient(135deg, #4caf50, #45a049);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -109,8 +119,8 @@
 }
 
 .login-button:hover {
-  background-color: #3e8e41; /* Darker on hover */
-  transform: scale(1.05); /* Zoom effect */
+  background-color: #3e8e41;
+  transform: scale(1.05);
 }
 
 /* Forgot Password */
@@ -120,14 +130,14 @@
 }
 
 .forgot-password a {
-  color: #ffcc00; /* Yellow links */
+  color: #ffcc00;
   text-decoration: none;
   font-size: 1em;
 }
 
 .forgot-password a:hover {
   text-decoration: underline;
-  color: #ffd700; /* Slightly brighter yellow */
+  color: #ffd700;
 }
 
 /* Footer Signature */
@@ -136,7 +146,7 @@
   bottom: 10px;
   right: 20px;
   font-size: 0.9em;
-  color: #ffcc00; /* Yellow signature */
+  color: #ffcc00;
   font-style: italic;
   font-weight: 600;
 }
@@ -144,27 +154,47 @@
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
   .login-container {
-      width: 80%; /* Smaller container */
-      padding: 20px;
+    width: 80%;
+    padding: 20px;
   }
 
   .login-heading {
-      font-size: 1.5em; /* Adjust heading size */
+    font-size: 1.5em;
   }
 
   .input-field {
-      font-size: 1em;
+    font-size: 1em;
   }
 
   .login-button {
-      font-size: 1.1em;
+    font-size: 1.1em;
   }
 
   .welcome-message {
-      font-size: 2em; /* Scale header */
+    font-size: 2em;
   }
 
   .sub-heading {
-      font-size: 1em;
+    font-size: 1em;
+  }
+}
+
+/* Spinner styles */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #ccc;
+  border-top: 3px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

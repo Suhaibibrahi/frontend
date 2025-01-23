@@ -1,0 +1,50 @@
+.users-status {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    margin-bottom: 20px;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .user-table th,
+  .user-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .user-table th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .approve-btn,
+  .deny-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .approve-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .deny-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+  

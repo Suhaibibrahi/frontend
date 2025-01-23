@@ -1,0 +1,165 @@
+/* Login.css */
+
+/* 1) Full-Page Background (Optional) 
+   If you want the login page to occupy the entire screen and show the background, 
+   add a container or .login-page wrapping your login content. */
+
+   .login-page {
+    min-height: 100vh;
+    /* Semi-transparent overlay + background from /public/assets/c130j.jpg */
+    background:
+    rgba(0, 0, 0, 0.5)
+    url("/assets/c130j.jpg")
+    no-repeat
+    center
+    center;
+    background-size: cover;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0; /* remove default browser margin */
+  }
+  
+  /* 2) Actual Login Container Box (Semi-Transparent Box) */
+  .login-container {
+    width: 280px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .login-container:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* 3) Login Form Styles */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .login-heading {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #ffcc00;
+    text-align: center;
+  }
+  
+  .input-group {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .input-label {
+    font-size: 1em;
+    margin-bottom: 8px;
+    color: #ffcc00;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    transition: all 0.3s ease;
+  }
+  
+  .input-field:focus {
+    border-color: #ffcc00;
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+  }
+  
+  /* 4) Login Button */
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2em;
+    color: white;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #3e8e41;
+    transform: scale(1.05);
+  }
+  
+  /* 5) Forgot Password Link */
+  .forgot-password {
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .forgot-password a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-size: 1em;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+    color: #ffd700;
+  }
+  
+  /* 6) Feedback Messages */
+  .feedback-message {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .feedback-message.error {
+    color: red;
+  }
+  
+  .feedback-message.success {
+    color: #4caf50;
+  }
+  
+  /* 7) Spinner */
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #ccc;
+    border-top: 3px solid #333;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* 8) Mobile Responsiveness */
+  @media (max-width: 600px) {
+    .login-container {
+      width: 80%;
+      padding: 20px;
+    }
+  
+    .login-heading {
+      font-size: 1.5em;
+    }
+  
+    .input-field {
+      font-size: 1em;
+    }
+  
+    .login-button {
+      font-size: 1.1em;
+    }
+  }
+  

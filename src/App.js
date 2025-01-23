@@ -1,124 +1,63 @@
-import React, { useState } from 'react';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Register from './Register';
 
-function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [feedback, setFeedback] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setFeedback('Please fill in both fields.');
-      return;
-    }
-
-    setIsLoading(true);
-    setFeedback(''); // Clear previous feedback
-    try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
-      setFeedback(response.data.message);
-      setError(false); // Reset error state on success
-    } catch (err) {
-      if (err.response) {
-        if (err.response.status === 401) {
-          setFeedback('Invalid email or password.');
-        } else if (err.response.status === 400) {
-          setFeedback('Please provide a valid email and password.');
-        } else {
-          setFeedback('An unexpected error occurred. Please try again.');
-        }
-      } else {
-        setFeedback('Unable to connect to the server. Please check your connection.');
-      }
-      setError(true); // Set error state on failure
-    } finally {
-      setIsLoading(false); // Reset loading state
-    }
-  };
-
-  return (
-    <div className="App">
-      <header className="header">
-        <h1 className="welcome-message">Welcome to the 23rd Tactical Airlift Squadron App</h1>
-        <p className="sub-heading">Ensuring mission readiness with streamlined operations</p>
-      </header>
-
-      <div className="login-container">
-        <form onSubmit={handleSubmit} className="login-form">
-          <h2 className="login-heading"> Login</h2>
-
-          {/* Email Field */}
-          <div className="input-group">
-            <label htmlFor="email" className="input-label">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              className="input-field"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Password Field */}
-          <div className="input-group">
-            <label htmlFor="password" className="input-label">Password</label>
-            <input
-              type="password"
-              id="password"
-              className="input-field"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button type="submit" className="login-button" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Login'}
-          </button>
-
-          {/* Forgot Password Link */}
-          <div className="forgot-password">
-          <a href="/reset-password">Forgot Password?</a> {/* Replace with a valid path */}
-          </div>
-        </form>
-
-        {/* Feedback Message */}
-        {feedback && (
-          <p className={`feedback-message ${error ? 'error' : 'success'}`}>
-            {feedback}
-          </p>
-        )}
-
-        {/* Link to Registration */}
-        <div className="navigate-register">
-          Don't have an account? <Link to="/register">Register here</Link>.
-        </div>
-      </div>
-
-      <div className="signature">
-        Designed by Suhaib Al-Khafaji
-      </div>
-    </div>
-  );
-}
+// Components
+import Sidebar from './components/Sidebar/Sidebar';
+import Login from './components/Login/Login';
+import Register from './components/Register/Register';
+import ForgotPassword from './components/ForgotPassword/forgot-password';
+import ResetPassword from './components/ResetPassword/reset-password';
+import Dashboard from './components/Dashboard/Dashboard';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import UsersStatus from './components/UsersStatus/UsersStatus';
+import ProtectedRoute from './components/ProtectedRoute'; // ProtectedRoute component
 
 function App() {
+  const isLoggedIn = !!localStorage.getItem('userEmail'); // Check if user is logged in
+
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <div style={{ display: 'flex' }}>
+        {/* Sidebar only visible when user is logged in */}
+        {isLoggedIn && <Sidebar />}
+
+        {/* Main content area */}
+        <div style={{ marginLeft: isLoggedIn ? '250px' : '0', padding: '20px', width: '100%' }}>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/dashboard"
+              element={<ProtectedRoute component={Dashboard} role="user" />}
+            />
+            <Route
+              path="/admin-dashboard"
+              element={<ProtectedRoute component={AdminDashboard} role="admin" />}
+            />
+            <Route
+              path="/users-status"
+              element={<ProtectedRoute component={UsersStatus} role="admin" />}
+            />
+
+            {/* Placeholder routes for future features */}
+            <Route path="/maintenance-status" element={<div>Maintenance Status</div>} />
+            <Route path="/crew-status" element={<div>Crew Status</div>} />
+            <Route path="/schedules" element={<div>Schedules</div>} />
+            <Route path="/files" element={<div>Files</div>} />
+            <Route path="/flight-bulletin" element={<div>Flight Bulletin</div>} />
+            <Route path="/safety-reads" element={<div>Safety Reads</div>} />
+            <Route path="/training" element={<div>Training</div>} />
+            <Route path="/mission-planning" element={<div>Mission Planning</div>} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }
