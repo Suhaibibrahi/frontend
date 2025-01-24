@@ -1,6 +1,7 @@
 // src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
 import './App.css';
 
 // Components
@@ -12,51 +13,143 @@ import ResetPassword from './components/ResetPassword/reset-password';
 import Dashboard from './components/Dashboard/Dashboard';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import UsersStatus from './components/UsersStatus/UsersStatus';
-import ProtectedRoute from './components/ProtectedRoute'; // ProtectedRoute component
+import ProtectedRoute from './components/ProtectedRoute';
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
+import Unauthorized from './components/Unauthorized/Unauthorized';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
 function App() {
-  const isLoggedIn = !!localStorage.getItem('userEmail'); // Check if user is logged in
+  const [user, setUser] = useState(() => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      localStorage.removeItem('user');
+      return null;
+    }
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  // Validate token on initial load
+  useEffect(() => {
+    const validateToken = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get('/api/validate-token', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (response.data?.valid && response.data?.role) {
+          const userData = {
+            email: response.data.email || '',
+            role: response.data.role, // Ensure role exists
+            name: response.data.name || '',
+            id: response.data.id || ''
+          };
+          localStorage.setItem('user', JSON.stringify(userData));
+          setUser(userData);
+        } else {
+          clearAuth();
+        }
+      } catch (error) {
+        console.error('Token validation error:', error);
+        clearAuth();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    validateToken();
+  }, []);
+
+  const clearAuth = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
+  const handleLogin = (token, userData) => {
+    if (!userData?.role) {
+      console.error('Invalid user data received');
+      return;
+    }
+    
+    const validatedUser = {
+      email: userData.email || '',
+      role: userData.role,
+      name: userData.name || '',
+      id: userData.id || ''
+    };
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(validatedUser));
+    setUser(validatedUser);
+  };
+
+  const handleLogout = () => {
+    clearAuth();
+    return <Navigate to="/login" state={{ message: 'Successfully logged out' }} replace />;
+  };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <Router>
-      <div style={{ display: 'flex' }}>
-        {/* Sidebar only visible when user is logged in */}
-        {isLoggedIn && <Sidebar />}
-
-        {/* Main content area */}
-        <div style={{ marginLeft: isLoggedIn ? '250px' : '0', padding: '20px', width: '100%' }}>
+      <div className="app-container">
+        {user && <Sidebar user={user} onLogout={handleLogout} />}
+        
+        <main className="main-content" style={{ 
+          marginLeft: user ? '250px' : '0',
+          transition: 'margin-left 0.3s ease-in-out'
+        }}>
           <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
 
             {/* Protected Routes */}
-            <Route
-              path="/dashboard"
-              element={<ProtectedRoute component={Dashboard} role="user" />}
-            />
-            <Route
-              path="/admin-dashboard"
-              element={<ProtectedRoute component={AdminDashboard} role="admin" />}
-            />
-            <Route
-              path="/users-status"
-              element={<ProtectedRoute component={UsersStatus} role="admin" />}
-            />
+            <Route path="/" element={
+              <ProtectedRoute user={user} allowedRoles={['user', 'admin']}>
+                <Navigate to="/dashboard" replace />
+              </ProtectedRoute>
+            }/>
 
-            {/* Placeholder routes for future features */}
-            <Route path="/maintenance-status" element={<div>Maintenance Status</div>} />
-            <Route path="/crew-status" element={<div>Crew Status</div>} />
-            <Route path="/schedules" element={<div>Schedules</div>} />
-            <Route path="/files" element={<div>Files</div>} />
-            <Route path="/flight-bulletin" element={<div>Flight Bulletin</div>} />
-            <Route path="/safety-reads" element={<div>Safety Reads</div>} />
-            <Route path="/training" element={<div>Training</div>} />
-            <Route path="/mission-planning" element={<div>Mission Planning</div>} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute user={user} allowedRoles={['user', 'admin']}>
+                <Dashboard user={user} />
+              </ProtectedRoute>
+            }/>
+
+            <Route path="/admin-dashboard" element={
+              <ProtectedRoute user={user} allowedRoles={['admin']}>
+                <AdminDashboard user={user} />
+              </ProtectedRoute>
+            }/>
+
+            <Route path="/users-status" element={
+              <ProtectedRoute user={user} allowedRoles={['admin']}>
+                <UsersStatus user={user} />
+              </ProtectedRoute>
+            }/>
+
+            {/* System Routes */}
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/error" element={<ErrorPage />} />
+
+            <Route path="*" element={<Navigate to="/error" state={{ error: 'Page not found' }} replace />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </Router>
   );

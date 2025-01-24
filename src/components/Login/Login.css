@@ -1,165 +1,173 @@
 /* Login.css */
+:root {
+  --primary-yellow: #ffcc00;
+  --dark-overlay: rgba(0, 0, 0, 0.7);
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --success-green: #4CAF50;
+  --error-red: #e53935;
+  --button-gradient: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+}
 
-/* 1) Full-Page Background (Optional) 
-   If you want the login page to occupy the entire screen and show the background, 
-   add a container or .login-page wrapping your login content. */
+/* Base Layout */
+.login-page {
+  min-height: 100vh;
+  background: var(--dark-overlay) url("/assets/c130j.jpg") no-repeat center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  margin: 0;
+}
 
-   .login-page {
-    min-height: 100vh;
-    /* Semi-transparent overlay + background from /public/assets/c130j.jpg */
-    background:
-    rgba(0, 0, 0, 0.5)
-    url("/assets/c130j.jpg")
-    no-repeat
-    center
-    center;
-    background-size: cover;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0; /* remove default browser margin */
-  }
-  
-  /* 2) Actual Login Container Box (Semi-Transparent Box) */
+/* Login Container */
+.login-container {
+  width: 320px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2.5rem;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px) saturate(180%);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Form Elements */
+.login-heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary-yellow);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--primary-yellow);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  background: var(--input-bg);
+  border: 2px solid transparent;
+  border-radius: 6px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-field:focus {
+  border-color: var(--primary-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
+  outline: none;
+}
+
+/* Button Styles */
+.login-button {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--button-gradient);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+/* Feedback & Utilities */
+.feedback-container {
+  margin: 1.5rem 0;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feedback-container.success {
+  background: rgba(76, 175, 80, 0.15);
+  color: var(--success-green);
+}
+
+.feedback-container.error {
+  background: rgba(229, 57, 53, 0.15);
+  color: var(--error-red);
+}
+
+.forgot-password-link {
+  color: var(--primary-yellow);
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.forgot-password-link:hover {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--primary-yellow);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
   .login-container {
-    width: 280px;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(15px);
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .login-container:hover {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-  }
-  
-  /* 3) Login Form Styles */
-  .login-form {
-    display: flex;
-    flex-direction: column;
     width: 100%;
+    padding: 1.5rem;
+    border-radius: 12px;
   }
-  
+
   .login-heading {
-    font-size: 1.8em;
-    margin-bottom: 20px;
-    color: #ffcc00;
-    text-align: center;
+    font-size: 1.75rem;
   }
-  
-  .input-group {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .input-label {
-    font-size: 1em;
-    margin-bottom: 8px;
-    color: #ffcc00;
-  }
-  
+
   .input-field {
-    width: 100%;
-    padding: 12px;
-    font-size: 1.1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #333;
-    transition: all 0.3s ease;
+    padding: 0.7rem 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-page {
+    padding: 1rem;
   }
   
-  .input-field:focus {
-    border-color: #ffcc00;
-    outline: none;
-    box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+  .login-container {
+    padding: 1.2rem;
   }
-  
-  /* 4) Login Button */
-  .login-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 1.2em;
-    color: white;
-    background: linear-gradient(135deg, #4CAF50, #45a049);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s ease;
-  }
-  
-  .login-button:hover {
-    background-color: #3e8e41;
-    transform: scale(1.05);
-  }
-  
-  /* 5) Forgot Password Link */
-  .forgot-password {
-    margin-top: 10px;
-    text-align: center;
-  }
-  
-  .forgot-password a {
-    color: #ffcc00;
-    text-decoration: none;
-    font-size: 1em;
-  }
-  
-  .forgot-password a:hover {
-    text-decoration: underline;
-    color: #ffd700;
-  }
-  
-  /* 6) Feedback Messages */
-  .feedback-message {
-    margin-top: 15px;
-    text-align: center;
-  }
-  
-  .feedback-message.error {
-    color: red;
-  }
-  
-  .feedback-message.success {
-    color: #4caf50;
-  }
-  
-  /* 7) Spinner */
-  .spinner {
-    width: 24px;
-    height: 24px;
-    border: 3px solid #ccc;
-    border-top: 3px solid #333;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
-  }
-  
-  @keyframes spin {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* 8) Mobile Responsiveness */
-  @media (max-width: 600px) {
-    .login-container {
-      width: 80%;
-      padding: 20px;
-    }
-  
-    .login-heading {
-      font-size: 1.5em;
-    }
-  
-    .input-field {
-      font-size: 1em;
-    }
-  
-    .login-button {
-      font-size: 1.1em;
-    }
-  }
-  
+}
