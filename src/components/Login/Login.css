@@ -1,173 +1,221 @@
-/* Login.css */
-:root {
-  --primary-yellow: #ffcc00;
-  --dark-overlay: rgba(0, 0, 0, 0.7);
-  --input-bg: rgba(255, 255, 255, 0.9);
-  --success-green: #4CAF50;
-  --error-red: #e53935;
-  --button-gradient: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
-}
+/* ==========================================
+   Bright Pastel Container
+   Large Subtitle, Crisp Text
+========================================== */
 
-/* Base Layout */
-.login-page {
-  min-height: 100vh;
-  background: var(--dark-overlay) url("/assets/c130j.jpg") no-repeat center/cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
+/* Reset */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Login Container */
-.login-container {
-  width: 320px;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 2.5rem;
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(12px) saturate(180%);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.login-container:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-}
-
-/* Form Elements */
-.login-heading {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: var(--primary-yellow);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.input-group {
-  margin-bottom: 1.5rem;
-}
-
-.input-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--primary-yellow);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.input-field {
+/* Background with subtle overlay + image */
+.login-page {
   width: 100%;
-  padding: 0.8rem 1.2rem;
-  font-size: 1rem;
-  background: var(--input-bg);
-  border: 2px solid transparent;
-  border-radius: 6px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.input-field:focus {
-  border-color: var(--primary-yellow);
-  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
-  outline: none;
-}
-
-/* Button Styles */
-.login-button {
-  width: 100%;
-  padding: 0.8rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #fff;
-  background: var(--button-gradient);
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  height: 100vh;
   position: relative;
+  background:
+    linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.3)),
+    url("/assets/c130j.jpg") center/cover no-repeat;
   overflow: hidden;
 }
 
-.login-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+/* Transparent top header, gold text, bigger subtitle */
+.top-header {
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  z-index: 10;
+  background: transparent; 
 }
 
-.login-button:active {
-  transform: translateY(0);
+.welcome-message {
+  font-size: 2rem;      /* large gold heading */
+  color: #ffd700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  margin-bottom: 0.5rem;
 }
 
-/* Feedback & Utilities */
-.feedback-container {
-  margin: 1.5rem 0;
-  padding: 0.8rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
+/* enlarged subtitle */
+.welcome-subtitle {
+  font-size: 1.5rem;
+  color: #ffd700;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+  opacity: 0.95;
+}
+
+/* Main area for the login box, 
+   spaced down to fit large subtitle */
+.login-main {
+  position: absolute;
+  top: 8rem; /* ensures the bigger subtitle doesn't overlap */
+  left: 0;
+  width: 100%;
+  height: calc(100% - 8rem);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
 }
 
-.feedback-container.success {
-  background: rgba(76, 175, 80, 0.15);
-  color: var(--success-green);
+/* 
+  The .login-box: bright pastel gradient, no blur
+  for maximum clarity
+*/
+.login-box {
+  width: 90%;
+  max-width: 420px;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+
+  /* Pastel gradient from a light cream to white */
+  background: linear-gradient(
+    135deg,
+    #fff9e6 0%, /* pale cream color */
+    #ffffff 100%
+  );
+
+  /* Crisp dark text for readability */
+  color: #000;
 }
 
-.feedback-container.error {
-  background: rgba(229, 57, 53, 0.15);
-  color: var(--error-red);
+/* The form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
-.forgot-password-link {
-  color: var(--primary-yellow);
+.login-form label {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.login-form input {
+  margin-top: 0.3rem;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #000;
+}
+
+/* Button */
+.login-button {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.login-button:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Feedback messages */
+.login-message {
+  margin-top: 1rem;
   font-size: 0.9rem;
-  transition: color 0.2s ease;
+  line-height: 1.4;
 }
 
-.forgot-password-link:hover {
-  color: #ffd700;
-  text-decoration: none;
+.error {
+  color: #ff003c;
 }
 
-/* Spinner Animation */
-.spinner {
-  width: 24px;
-  height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: var(--primary-yellow);
+.success {
+  color: green;
+}
+
+/* Spinner for loading */
+.tactical-spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top-color: #000;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.6s linear infinite;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 480px) {
-  .login-container {
-    width: 100%;
-    padding: 1.5rem;
-    border-radius: 12px;
-  }
-
-  .login-heading {
-    font-size: 1.75rem;
-  }
-
-  .input-field {
-    padding: 0.7rem 1rem;
-  }
+/* Links */
+.login-links {
+  margin-top: 1.5rem;
+  text-align: left;
 }
 
-@media (max-width: 360px) {
-  .login-page {
-    padding: 1rem;
+.login-links a {
+  display: block;
+  font-size: 0.85rem;
+  color: #333;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.login-links a:hover {
+  color: #007bff;
+}
+
+/* Version label (bottom-left) */
+.version-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  border-top-right-radius: 4px;
+}
+
+/* Signature (bottom-right) */
+.signature {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  border-top-left-radius: 4px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .welcome-message {
+    font-size: 1.5rem;
   }
-  
-  .login-container {
-    padding: 1.2rem;
+  .welcome-subtitle {
+    font-size: 1.2rem;
+  }
+  .login-box {
+    padding: 1.5rem;
   }
 }

@@ -1,147 +1,185 @@
+/* ========================================
+   Enhanced Registration Page
+   Bigger Form + Modern Dark Glass
+======================================== */
+
+/* Main page container */
 .register-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
+  
+    /* Fullscreen IQAF image with a subtle overlay for clarity */
     background:
-    rgba(0, 0, 0, 0.5)
-    url("/assets/IQAF.jpg")
-    no-repeat
-    center
-    center; /* Ensure the image covers the entire container */
-    background-position: center; /* Center the image */
-    padding: 20px; /* Add padding for better spacing */
-    overflow: auto; /* Handle overflow for smaller screens */
-    backdrop-filter: blur(5px); /* Add a subtle blur effect for a sleek look */
-    background-color: #222; /* Fallback color if image doesn't load */
-}
-
-.register-form {
-    width: 300px; /* Wider for better alignment */
-    padding: 40px; /* Increased padding for a cleaner layout */
-    border: none; /* Removed border for simplicity */
-    border-radius: 12px; /* More rounded corners for a modern look */
-    background: rgba(0, 0, 0, 0.7); /* Dark background with higher opacity */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Deeper shadow for strong depth */
-    text-align: left; /* Align form content to the left for readability */
-    color: white; /* Change text color for better contrast */
-}
-
-.register-form h2 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #fff; /* Bright text for better readability */
-}
-
-.input-group {
-    margin-bottom: 20px; /* Increase spacing between fields */
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 5px; /* Slightly smaller spacing for compact design */
-    font-weight: bold;
-    color: #ddd; /* Softer text color */
-}
-
-.input-group input {
-    width: 100%; /* Full width for cleaner alignment */
-    padding: 12px; /* Increased padding for a better typing experience */
-    border: none; /* Removed border for simplicity */
-    border-radius: 5px; /* Rounded corners for a modern touch */
-    background: rgba(255, 255, 255, 0.9); /* Light background for contrast */
-    font-size: 16px; /* Slightly larger font size */
-    color: #333; /* Dark text for better readability */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for input fields */
-}
-
-.input-group input:focus {
-    outline: 2px solid #3498db; /* Blue focus outline */
-    background: rgba(255, 255, 255, 1); /* Brighter background */
-}
-
-button {
-    width: 100%; /* Full width button */
-    padding: 15px; /* Larger padding for a solid feel */
-    background: linear-gradient(135deg, #56ab2f, #a8e063); /* Softer gradient background */
-    color: white;
+      linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+      ),
+      url("/assets/IQAF.jpg")
+      no-repeat center center;
+    background-size: cover;       /* Ensure no black bars on sides */
+    backdrop-filter: blur(4px);   /* Slight blur for a glass effect */
+    overflow: auto;
+    padding: 2rem;
+  }
+  
+  /* Registration form "card" */
+  .register-form {
+    width: 350px;                  /* Slightly larger form */
+    max-width: 90%;               /* Respect small screens */
+    padding: 2rem;
     border: none;
-    border-radius: 8px; /* Rounded corners */
-    cursor: pointer;
-    font-size: 18px; /* Larger font size for emphasis */
+    border-radius: 10px;
+    text-align: left;
+  
+    /* Dark glass look, less opaque to see more background */
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    color: #fff;
+  
+    /* Softer but deeper shadow */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Form heading */
+  .register-form h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  
+  /* Spacing & styling for fields */
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
     font-weight: bold;
-    transition: all 0.3s ease; /* Smooth hover transition */
-}
-
-button:hover {
-    background: linear-gradient(135deg, #4caf50, #81c784); /* Slightly darker on hover */
-    transform: scale(1.08); /* Slightly larger on hover for interaction */
-}
-
-button:disabled {
-    background: #888; /* Neutral color for disabled state */
-    cursor: not-allowed;
-    opacity: 0.8; /* Fade effect for disabled button */
-}
-
-.feedback-message {
-    font-size: 14px; /* Slightly smaller font for compact spacing */
-    min-height: 20px; /* Fixed height to prevent layout shifts */
-    color: #e57373; /* Softer red for error messages */
-    text-align: center;
-    margin-top: 10px;
-}
-
-.success-message {
-    color: #81c784; /* Softer green for success */
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-.contact-admin {
-    margin-top: 30px; /* Spaced further from form */
-    padding: 20px; /* More padding for breathing room */
-    background: rgba(255, 255, 255, 0.8); /* Light background for contrast */
-    border-radius: 10px; /* Rounded edges for a modern touch */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
-    text-align: center;
-}
-
-.contact-admin h3 {
-    font-size: 20px; /* Larger heading for prominence */
-    margin-bottom: 10px;
+    color: #ddd;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
     color: #333;
-}
-
-.contact-admin p {
-    font-size: 14px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-group input:focus {
+    outline: 2px solid #348feb;
+    background: #fff;
+  }
+  
+  /* The small instructional text under password */
+  .input-group small {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+  
+  /* Submit button with a fresh accent color */
+  .register-form button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00b09b, #96c93d); /* Teal-to-green gradient */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  
+  .register-form button:hover {
+    background: linear-gradient(135deg, #00a18e, #82b836);
+    transform: translateY(-2px);
+  }
+  
+  .register-form button:disabled {
+    background: #888;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
+  }
+  
+  /* Feedback messages */
+  .feedback-message {
+    font-size: 0.9rem;
+    min-height: 20px;
+    text-align: center;
+    margin-top: 10px;
+    color: #e57373; /* default error color */
+  }
+  
+  .success-message {
+    color: #81c784;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
+  /* Contact admin "card" */
+  .contact-admin {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  .contact-admin h3 {
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .contact-admin p {
+    font-size: 0.85rem;
     color: #555;
-}
-
-.contact-admin a {
-    color: #3498db; /* Softer blue for links */
+  }
+  
+  .contact-admin a {
+    color: #3498db;
     text-decoration: none;
     font-weight: bold;
-}
-
-.contact-admin a:hover {
+  }
+  
+  .contact-admin a:hover {
     text-decoration: underline;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
     .register-form {
-        width: 90%;
-        padding: 20px;
+      width: 100%;
+      padding: 1.5rem;
     }
-
-    .input-group input,
-    button {
-        font-size: 14px; /* Adjust for smaller screens */
-        padding: 10px;
+    
+    .register-form h2 {
+      font-size: 22px;
     }
-}
+    
+    .input-group input {
+      font-size: 14px;
+    }
+    
+    .register-form button {
+      font-size: 0.9rem;
+      padding: 12px;
+    }
+  }
+  

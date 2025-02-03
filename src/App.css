@@ -1,200 +1,156 @@
-/* App.css */
-
-/* 
-  We assume you want c130j.jpg as the main background 
-  behind a semi-transparent overlay, so we reference 
-  /assets/c130j.jpg from the public folder.
-*/
-
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+.sidebar {
+  width: 250px;
   height: 100vh;
-  font-family: 'Arial', sans-serif;
-  position: relative;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  color: white;
-
-  /* Semi-transparent black overlay + background from /public/assets/c130j.jpg */
   background: 
-    rgba(0, 0, 0, 0.5)
-    url("/assets/c130j.jpg")
-    no-repeat
-    center
-    center;
-  background-size: cover;
-}
-
-/* Header Section */
-.header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.welcome-message {
-  font-size: 2.5em;
-  font-weight: bold;
-  color: #ffcc00; /* Yellow color for header */
-  margin-bottom: 10px;
-}
-
-.sub-heading {
-  font-size: 1.2em;
-  color: #ffffff;
-}
-
-/* Login Container */
-.login-container {
-  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  width: 280px;
-  margin-top: 30px;
-  backdrop-filter: blur(15px);
-  transition: box-shadow 0.3s ease;
-}
-
-.login-container:hover {
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* Login Form */
-.login-form {
+    linear-gradient(
+      15deg, 
+      rgba(26, 26, 26, 0.95) 0%,
+      rgba(40, 40, 40, 0.95) 100%
+    ),
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg=='); /* Tactical texture */
+  color: #e0e0e0;
+  position: fixed;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  padding: 20px 15px;
+  border-right: 1px solid #f1c40f33;
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.login-heading {
-  font-size: 1.8em;
-  margin-bottom: 20px;
-  color: #ffcc00;
+/* Tactical Typography */
+.sidebar h2 {
+  font-size: 1.4rem;
   text-align: center;
-}
-
-/* Input Fields */
-.input-group {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.input-label {
-  font-size: 1em;
-  margin-bottom: 8px;
-  color: #ffcc00;
-}
-
-.input-field {
-  width: 100%;
-  padding: 12px;
-  font-size: 1.1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
-  color: #333;
-  transition: all 0.3s ease;
-}
-
-.input-field:focus {
-  border-color: #ffcc00;
-  outline: none;
-  box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
-}
-
-/* Button Styles */
-.login-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 1.2em;
-  color: white;
-  background: linear-gradient(135deg, #4caf50, #45a049);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s ease;
-}
-
-.login-button:hover {
-  background-color: #3e8e41;
-  transform: scale(1.05);
-}
-
-/* Forgot Password */
-.forgot-password {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.forgot-password a {
-  color: #ffcc00;
-  text-decoration: none;
-  font-size: 1em;
-}
-
-.forgot-password a:hover {
-  text-decoration: underline;
-  color: #ffd700;
-}
-
-/* Footer Signature */
-.signature {
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  font-size: 0.9em;
-  color: #ffcc00;
-  font-style: italic;
+  margin: 20px 0 30px;
+  color: #f1c40f;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
   font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  position: relative;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 600px) {
-  .login-container {
-    width: 80%;
-    padding: 20px;
-  }
+.sidebar h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: #f1c40f55;
+}
 
-  .login-heading {
-    font-size: 1.5em;
-  }
+/* Navigation List - Military Spec */
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
 
-  .input-field {
-    font-size: 1em;
-  }
+.sidebar ul li {
+  margin: 12px 0;
+  position: relative;
+  overflow: hidden;
+}
 
-  .login-button {
-    font-size: 1.1em;
-  }
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.05rem;
+  padding: 10px 15px;
+  border-radius: 4px;
+  transition: 
+    all 0.3s ease,
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+}
 
-  .welcome-message {
-    font-size: 2em;
-  }
+/* Hover & Active States */
+.sidebar ul li a:hover {
+  color: #f1c40f;
+  background: rgba(241, 196, 15, 0.08);
+  transform: translateX(6px);
+}
 
-  .sub-heading {
-    font-size: 1em;
+.sidebar ul li a::before {
+  content: '▶';
+  position: absolute;
+  left: -15px;
+  color: #f1c40f;
+  transition: left 0.3s ease;
+  font-size: 0.8rem;
+  opacity: 0;
+}
+
+.sidebar ul li a:hover::before {
+  left: 5px;
+  opacity: 1;
+}
+
+/* Tactical Indicator */
+.sidebar::after {
+  content: 'CLASSIFIED';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #b71c1c;
+  color: white;
+  font-size: 0.7rem;
+  text-align: center;
+  padding: 3px 0;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+    padding: 15px 5px;
+  }
+  
+  .sidebar h2 {
+    font-size: 0;
+    margin: 10px 0;
+  }
+  
+  .sidebar h2::after {
+    width: 30px;
+    bottom: -5px;
+  }
+  
+  .sidebar ul li a span {
+    display: none;
+  }
+  
+  .sidebar ul li a {
+    justify-content: center;
+    padding: 12px 0;
+  }
+  
+  .sidebar::after {
+    font-size: 0.6rem;
   }
 }
 
-/* Spinner styles */
-.spinner {
-  width: 24px;
-  height: 24px;
-  border: 3px solid #ccc;
-  border-top: 3px solid #333;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto;
+/* Animation Enhancements */
+@keyframes tacticalPulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.sidebar ul li.active a {
+  color: #f1c40f;
+  background: rgba(241, 196, 15, 0.1);
+  animation: tacticalPulse 2s infinite;
 }

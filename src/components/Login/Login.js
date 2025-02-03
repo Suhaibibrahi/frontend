@@ -1,200 +1,180 @@
 // src/components/Login/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function Login({ onLogin }) {
-  // State variables
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-
   const navigate = useNavigate();
 
-  // Handle form submission
+  // Clear any existing session on mount
+  useEffect(() => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }, []);
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault();
     setFeedback('');
     setError(false);
 
-    // Step 1: Basic validation
+    // Basic validation
     if (!email || !password) {
-      setFeedback('Please fill in both fields.');
+      setFeedback('All security fields must be completed.');
       setError(true);
       return;
     }
-
-    if (!email.includes('@') || !email.includes('.')) {
-      setFeedback('Please enter a valid email address.');
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setFeedback('Invalid operator identification format.');
       setError(true);
       return;
     }
-
     if (password.length < 8) {
-      setFeedback('Password must be at least 8 characters.');
+      setFeedback('Security protocol requires minimum 8 character cipher.');
       setError(true);
       return;
     }
 
-    setIsLoading(true); // Show loading spinner
+    setIsLoading(true);
 
     try {
-      // Step 2: Send login request to backend
-      const response = await axios.post('http://localhost:5000/login', {
-        email: email.toLowerCase().trim(),
-        password: password.trim(),
-      }, {
-        timeout: 10000, // 10-second timeout
-      });
+      const response = await axios.post(
+        'http://localhost:5000/login',
+        {
+          email: email.toLowerCase().trim(),
+          password: password.trim(),
+        },
+        { timeout: 10000, headers: { 'Content-Type': 'application/json' } }
+      );
 
-      // Step 3: Validate server response
-      if (!response.data?.user || !response.data?.token) {
-        throw new Error('Invalid server response format');
+      if (!response.data?.user?.role || !response.data?.token) {
+        throw new Error('Invalid authentication response from command center');
       }
 
       const { token, user } = response.data;
 
-      // Step 4: Validate user role
-      if (!['user', 'admin'].includes(user.role)) {
-        throw new Error('Invalid user role received');
-      }
-
-      // Step 5: Store authentication data
+      // Store token & user in local storage
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          email: user.email,
+          role: user.role,
+          name: user.name,
+          id: user.id,
+        })
+      );
 
-      // Step 6: Update parent component state
+      // Notify parent of successful login
       onLogin(token, user);
 
-      // Step 7: Show success message and redirect
-      setFeedback('Login successful! Redirecting...');
-      setError(false);
-
+      // Show success feedback and redirect
+      setFeedback('Authentication sequence complete. Initializing dashboard...');
       setTimeout(() => {
         navigate(user.role === 'admin' ? '/admin-dashboard' : '/dashboard');
       }, 1500);
-
     } catch (err) {
-      // Step 8: Handle errors
-      let errorMessage = 'Login failed. Please try again.';
-
+      let errorMessage = 'Security protocol violation. Access denied.';
       if (err.response?.data?.message) {
+        // Server-provided error
         errorMessage = err.response.data.message;
       } else if (err.request) {
-        errorMessage = 'No response from server. Check your connection.';
-      } else if (err.message.includes('Invalid')) {
-        errorMessage = 'System error: Invalid login response.';
+        // Request made, no response
+        errorMessage = 'Connection to command center failed. Check your network.';
+      } else {
+        // Something else triggered an error
+        errorMessage = 'Critical system error. Contact technical support.';
       }
 
       setFeedback(errorMessage);
       setError(true);
 
-      // Clear sensitive data on critical errors
-      if (err.response?.status >= 500 || err.message.includes('Invalid')) {
+      // Clear local storage if credentials compromised
+      if (err.response?.status >= 400) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         setPassword('');
       }
     } finally {
-      setIsLoading(false); // Hide loading spinner
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="App">
-      <header className="header">
-        <h1 className="welcome-message">Welcome to the 23rd Tactical Airlift Squadron App</h1>
-        <p className="sub-heading">Ensuring mission readiness with streamlined operations</p>
+    <div className="login-page">
+      {/* Top header with gold welcome text */}
+      <header className="top-header">
+        <h1 className="welcome-message">
+          Welcome to the 23rd Tactical Airlift Squadron App
+        </h1>
+        <p className="welcome-subtitle">
+          Ensuring mission readiness with streamlined operations
+        </p>
       </header>
 
-      <div className="login-container">
-        <form onSubmit={handleSubmit} className="login-form">
-          <h2 className="login-heading">Login</h2>
-
-          {/* Email Input */}
-          <div className="input-group">
-            <label htmlFor="email" className="input-label">Email Address</label>
+      {/* Main area (login box) */}
+      <main className="login-main">
+        <div className="login-box">
+          <form onSubmit={handleSubmit} className="login-form">
+            <label htmlFor="email">OPERATOR IDENTIFICATION</label>
             <input
-              type="email"
               id="email"
-              className="input-field"
-              placeholder="Enter your email"
+              type="email"
+              placeholder="Enter military email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
               autoComplete="username"
             />
-          </div>
 
-          {/* Password Input */}
-          <div className="input-group">
-            <label htmlFor="password" className="input-label">Password</label>
+            <label htmlFor="password">ENCRYPTION KEY</label>
             <input
-              type="password"
               id="password"
-              className="input-field"
-              placeholder="Enter your password"
+              type="password"
+              placeholder="Enter security cipher"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
               autoComplete="current-password"
             />
-          </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="login-button"
-            disabled={isLoading}
-            aria-busy={isLoading}
-          >
-            {isLoading ? (
-              <div className="spinner" aria-label="Authenticating" />
-            ) : 'Login'}
-          </button>
-
-          {/* Forgot Password Link */}
-          <div className="forgot-password">
-            <Link
-              to="/forgot-password"
-              className="forgot-password-link"
-              aria-disabled={isLoading}
+            <button
+              type="submit"
+              className="login-button"
+              disabled={isLoading}
+              aria-busy={isLoading}
             >
-              Forgot Password?
-            </Link>
-          </div>
-        </form>
+              {isLoading ? (
+                <div className="tactical-spinner" aria-label="Validating credentials" />
+              ) : (
+                'INITIATE AUTHENTICATION'
+              )}
+            </button>
+          </form>
 
-        {/* Feedback Message */}
-        {feedback && (
-          <div
-            className={`feedback-container ${error ? 'error' : 'success'}`}
-            role="alert"
-            aria-live="polite"
-          >
-            <p className="feedback-text">
-              {error ? '⚠️ ' : '✅ '}
+          {feedback && (
+            <div className={`login-message ${error ? 'error' : 'success'}`}>
               {feedback}
-            </p>
+            </div>
+          )}
+
+          <div className="login-links">
+            <Link to="/forgot-password">▶ Encryption Key Recovery Protocol</Link>
+            <Link to="/register">▶ New Operator Registration</Link>
           </div>
-        )}
-
-        {/* Register Link */}
-        <div className="navigate-register">
-          Don't have an account? {' '}
-          <Link to="/register" className="register-link">
-            Register here
-          </Link>
         </div>
-      </div>
+      </main>
 
-      {/* Signature */}
-      <div className="signature">
-        Designed by Suhaib Al-Khafaji
-      </div>
+      {/* Version label bottom-left */}
+      <div className="version-label">Mission Control System v2.4.1</div>
+
+      {/* Signature bottom-right */}
+      <div className="signature">Tactical Interface Design: Suhaib Al-Khafaji</div>
     </div>
   );
 }

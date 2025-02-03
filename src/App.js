@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
@@ -31,8 +31,9 @@ function App() {
   });
 
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Validate token on initial load
   useEffect(() => {
     const validateToken = async () => {
       const token = localStorage.getItem('token');
@@ -46,12 +47,12 @@ function App() {
           headers: { Authorization: `Bearer ${token}` }
         });
 
-        if (response.data?.valid && response.data?.role) {
+        if (response.data?.user?.role) {
           const userData = {
-            email: response.data.email || '',
-            role: response.data.role, // Ensure role exists
-            name: response.data.name || '',
-            id: response.data.id || ''
+            email: response.data.user.email,
+            role: response.data.user.role,
+            name: response.data.user.name,
+            id: response.data.user.id
           };
           localStorage.setItem('user', JSON.stringify(userData));
           setUser(userData);
@@ -67,7 +68,7 @@ function App() {
     };
 
     validateToken();
-  }, []);
+  }, [location.pathname]);
 
   const clearAuth = () => {
     localStorage.removeItem('token');
@@ -82,10 +83,10 @@ function App() {
     }
     
     const validatedUser = {
-      email: userData.email || '',
+      email: userData.email,
       role: userData.role,
-      name: userData.name || '',
-      id: userData.id || ''
+      name: userData.name,
+      id: userData.id
     };
 
     localStorage.setItem('token', token);
@@ -95,63 +96,57 @@ function App() {
 
   const handleLogout = () => {
     clearAuth();
-    return <Navigate to="/login" state={{ message: 'Successfully logged out' }} replace />;
+    navigate('/login', { state: { from: 'logout' }, replace: true });
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner fullScreen={true} />;
   }
 
   return (
-    <Router>
-      <div className="app-container">
-        {user && <Sidebar user={user} onLogout={handleLogout} />}
-        
-        <main className="main-content" style={{ 
-          marginLeft: user ? '250px' : '0',
-          transition: 'margin-left 0.3s ease-in-out'
-        }}>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
+    <div className="app-container">
+      {user && <Sidebar user={user} onLogout={handleLogout} />}
+      
+      <main className={`main-content ${user ? 'authenticated' : 'public'}`}>
+        <Routes>
+          <Route path="/login" element={
+            user ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />
+          } />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-            {/* Protected Routes */}
-            <Route path="/" element={
-              <ProtectedRoute user={user} allowedRoles={['user', 'admin']}>
-                <Navigate to="/dashboard" replace />
-              </ProtectedRoute>
-            }/>
+          {/* Added allowedRoles={[]} to default routes */}
+          <Route path="/" element={
+            <ProtectedRoute user={user} allowedRoles={[]}>
+              <Navigate to="/dashboard" replace />
+            </ProtectedRoute>
+          }/>
 
-            <Route path="/dashboard" element={
-              <ProtectedRoute user={user} allowedRoles={['user', 'admin']}>
-                <Dashboard user={user} />
-              </ProtectedRoute>
-            }/>
+          <Route path="/dashboard" element={
+            <ProtectedRoute user={user} allowedRoles={[]}>
+              <Dashboard user={user} />
+            </ProtectedRoute>
+          }/>
 
-            <Route path="/admin-dashboard" element={
-              <ProtectedRoute user={user} allowedRoles={['admin']}>
-                <AdminDashboard user={user} />
-              </ProtectedRoute>
-            }/>
+          <Route path="/admin-dashboard" element={
+            <ProtectedRoute user={user} allowedRoles={['admin']}>
+              <AdminDashboard user={user} />
+            </ProtectedRoute>
+          }/>
 
-            <Route path="/users-status" element={
-              <ProtectedRoute user={user} allowedRoles={['admin']}>
-                <UsersStatus user={user} />
-              </ProtectedRoute>
-            }/>
+          <Route path="/users-status" element={
+            <ProtectedRoute user={user} allowedRoles={['admin']}>
+              <UsersStatus user={user} />
+            </ProtectedRoute>
+          }/>
 
-            {/* System Routes */}
-            <Route path="/unauthorized" element={<Unauthorized />} />
-            <Route path="/error" element={<ErrorPage />} />
-
-            <Route path="*" element={<Navigate to="/error" state={{ error: 'Page not found' }} replace />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/error" element={<ErrorPage />} />
+          <Route path="*" element={<Navigate to="/error" replace />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
