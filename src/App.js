@@ -1,7 +1,7 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import apiClient from './apiClient';  // Using the centralized Axios instance
 import './App.css';
 
 // Components
@@ -17,6 +17,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 import Unauthorized from './components/Unauthorized/Unauthorized';
 import ErrorPage from './components/ErrorPage/ErrorPage';
+import ScheduleGrid from './components/ScheduleGrid/ScheduleGrid';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -31,9 +32,10 @@ function App() {
   });
 
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Validate the token once on mount
   useEffect(() => {
     const validateToken = async () => {
       const token = localStorage.getItem('token');
@@ -41,18 +43,15 @@ function App() {
         setLoading(false);
         return;
       }
-
       try {
-        const response = await axios.get('/api/validate-token', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
+        // The token is automatically attached by apiClient
+        const response = await apiClient.get('/api/validate-token');
         if (response.data?.user?.role) {
           const userData = {
             email: response.data.user.email,
             role: response.data.user.role,
             name: response.data.user.name,
-            id: response.data.user.id
+            id: response.data.user.id,
           };
           localStorage.setItem('user', JSON.stringify(userData));
           setUser(userData);
@@ -68,7 +67,7 @@ function App() {
     };
 
     validateToken();
-  }, [location.pathname]);
+  }, []);
 
   const clearAuth = () => {
     localStorage.removeItem('token');
@@ -81,14 +80,12 @@ function App() {
       console.error('Invalid user data received');
       return;
     }
-    
     const validatedUser = {
       email: userData.email,
       role: userData.role,
       name: userData.name,
-      id: userData.id
+      id: userData.id,
     };
-
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(validatedUser));
     setUser(validatedUser);
@@ -106,41 +103,49 @@ function App() {
   return (
     <div className="app-container">
       {user && <Sidebar user={user} onLogout={handleLogout} />}
-      
       <main className={`main-content ${user ? 'authenticated' : 'public'}`}>
         <Routes>
+          {/* Root Route: Redirect based on authentication */}
+          <Route path="/" element={
+            user ? <Navigate to="/dashboard-redirect" replace /> : <Navigate to="/login" replace />
+          }/>
           <Route path="/login" element={
-            user ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />
-          } />
+            user ? <Navigate to="/dashboard-redirect" replace /> : <Login onLogin={handleLogin} />
+          }/>
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-          {/* Added allowedRoles={[]} to default routes */}
-          <Route path="/" element={
-            <ProtectedRoute user={user} allowedRoles={[]}>
-              <Navigate to="/dashboard" replace />
-            </ProtectedRoute>
+          {/* Dashboard Redirect Route */}
+          <Route path="/dashboard-redirect" element={
+            user 
+              ? (user.role === 'owner' || user.role === 'admin'
+                  ? <Navigate to="/admindashboard" replace />
+                  : <Navigate to="/dashboard" replace />)
+              : <Navigate to="/login" replace />
           }/>
 
+          {/* Protected Routes */}
           <Route path="/dashboard" element={
-            <ProtectedRoute user={user} allowedRoles={[]}>
+            <ProtectedRoute user={user} allowedRoles={['user']}>
               <Dashboard user={user} />
             </ProtectedRoute>
           }/>
-
-          <Route path="/admin-dashboard" element={
-            <ProtectedRoute user={user} allowedRoles={['admin']}>
+          <Route path="/admindashboard" element={
+            <ProtectedRoute user={user} allowedRoles={['owner', 'admin']}>
               <AdminDashboard user={user} />
             </ProtectedRoute>
           }/>
-
           <Route path="/users-status" element={
             <ProtectedRoute user={user} allowedRoles={['admin']}>
               <UsersStatus user={user} />
             </ProtectedRoute>
           }/>
 
+          {/* New Route for the Flight Schedule */}
+          <Route path="/schedules" element={<ScheduleGrid />} />
+
+          {/* Other Routes */}
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="*" element={<Navigate to="/error" replace />} />

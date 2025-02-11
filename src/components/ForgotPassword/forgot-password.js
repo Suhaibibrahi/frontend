@@ -1,7 +1,6 @@
 // src/components/ForgotPassword/ForgotPassword.js
 import React, { useState } from 'react';
 import './ForgotPassword.css';
-
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [feedback, setFeedback] = useState('');

@@ -1,0 +1,16 @@
+/* src/components/ScheduleGrid/ScheduleGrid.css */
+.schedule-grid-container {
+    width: 95%;
+    margin: 20px auto;
+  }
+  
+  .schedule-grid-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Optional: Style the Handsontable container or cells */
+  .handsontable {
+    border: 1px solid #ccc;
+  }
+  

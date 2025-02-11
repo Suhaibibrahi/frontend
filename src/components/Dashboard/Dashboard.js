@@ -1,14 +1,17 @@
 // src/components/Dashboard/Dashboard.js
 import React from 'react';
+import ScheduleGrid from '../ScheduleGrid/ScheduleGrid';
 import './Dashboard.css';
 
-function Dashboard() {
+function Dashboard({ user }) {
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-heading">Welcome to Your Dashboard</h1>
+      <h1 className="dashboard-heading">Welcome, {user.name}!</h1>
       <p className="dashboard-subtitle">
-        Access all your important data and tools here. Stay organized and mission-ready with ease.
+      Access all your important data and tools here. Stay organized and mission-ready.
       </p>
+      {/* Include the schedule grid */}
+      <ScheduleGrid />
     </div>
   );
 }

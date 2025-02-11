@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import './ResetPassword.css';
-
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
